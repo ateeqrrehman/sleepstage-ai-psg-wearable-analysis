@@ -1,22 +1,22 @@
-# SleepStage AI: Polysomnography-Aligned Wearable Signal Modeling for Sleep Stage Classification
+# SleepStage AI: PSG-Aligned Wearable Signal Modeling for Sleep Stage Classification
 
-**SleepStage AI** is a research-oriented machine learning project for classifying sleep stages using wearable physiological signals aligned with polysomnography-labeled sleep-stage epochs. The project uses heart rate, wrist accelerometry, and step-count streams from the PhysioNet Sleep-Accel dataset to build an end-to-end workflow for ingestion, cleaning, 30-second epoch alignment, feature engineering, exploratory analysis, statistical testing, dimensionality reduction, supervised classification, and model evaluation.
+**SleepStage AI** is a research-oriented machine learning project for classifying sleep stages using wearable physiological signals aligned with polysomnography-labeled sleep-stage epochs. The project uses heart rate, wrist accelerometry, and step-count streams from the PhysioNet Sleep-Accel dataset to build an end-to-end ML workflow for data ingestion, 30-second epoch alignment, physiological feature engineering, statistical analysis, dimensionality reduction, supervised classification, model evaluation, and reproducible experimentation.
 
-This repository is structured as a professional ML research and engineering project rather than a single notebook. The notebook remains available as a research walkthrough, while reusable pipeline logic is organized into modular Python files under `src/`.
+The project investigates how AI can extract meaningful sleep-stage structure from synchronized wearable signals and establish a foundation for future multimodal PSG and wearable sleep modeling.
 
 ---
 
 ## Research Question
 
-Can machine learning classify sleep stages from synchronized wearable streams aligned to PSG stage labels, and can these signals reveal meaningful physiological structure that supports future multimodal PSG and wearable sleep modeling?
+Can machine learning classify sleep stages from synchronized wearable streams aligned to PSG stage labels, and can these signals reveal physiological structure that supports multimodal sleep-study interpretation?
 
 ---
 
 ## Problem Context
 
-Polysomnography is the gold-standard clinical method for studying sleep. A PSG study records multiple physiological signals, but many clinical workflows rely on a subset of manually interpreted channels. This project explores whether AI can use wearable signals aligned with PSG labels to identify sleep-stage structure and support deeper interpretation of sleep-study data.
+Polysomnography is the gold-standard clinical method for studying sleep. A PSG study records multiple physiological signals, including brain activity, eye movement, muscle tone, airflow, oxygen saturation, ECG, heart rate, and body movement. In practice, many scoring workflows focus on a smaller subset of manually interpreted channels.
 
-The current implementation focuses on wearable signals and PSG labels as a first step toward broader multimodal sleep-study modeling.
+This project explores whether AI can use synchronized wearable signals such as heart rate, wrist movement, and steps to identify sleep-stage structure. The work focuses on PSG-aligned wearable modeling as a practical first step toward broader AI-enhanced sleep-study interpretation, latent biomarker discovery, and more comprehensive physiological signal analysis.
 
 ---
 
@@ -33,7 +33,26 @@ Each subject includes synchronized files for:
 - Wrist accelerometry
 - Step count
 
-Sleep-stage labels are represented as 30-second epochs, which makes the dataset suitable for epoch-level classification.
+Sleep-stage labels are represented as 30-second epochs with classes including Wake, N1, N2, N3, and REM. The dataset is suitable for epoch-level supervised learning and physiological pattern analysis.
+
+---
+
+## Variables and Modeling Target
+
+| Category | Variables |
+|---|---|
+| Input signals | Heart rate, wrist acceleration, step count, derived motion magnitude |
+| Engineered features | Heart-rate statistics, motion statistics, step aggregates, epoch-level feature summaries |
+| Target label | PSG sleep-stage label per 30-second epoch |
+| Modeling task | Multi-class sleep-stage classification |
+
+Potential confounders include subject-level physiology, age, sex, health status, medication use, caffeine, and sleep-lab conditions. The project design emphasizes subject-aware evaluation, within-subject normalization, and careful interpretation of wearable-only signals.
+
+---
+
+## Hypothesis
+
+Different sleep stages produce distinguishable physiological patterns across wearable signals. Deep sleep may show reduced movement and lower autonomic variability, REM may show characteristic autonomic fluctuation, and wakefulness may show higher activity. A supervised model trained on PSG-aligned wearable features should learn meaningful sleep-stage structure above chance-level prediction and support interpretation of latent physiological patterns.
 
 ---
 
@@ -131,26 +150,28 @@ Model evaluation focuses on:
 
 ## Reproducibility
 
-The repository includes a modular source-code structure, requirements file, documentation, and CI workflow. Reproducibility is supported through:
+The repository includes modular source code, dependency specifications, documentation, testing, and CI validation. Reproducibility is supported through:
 
 - Public PhysioNet dataset access
-- Subject-level data ingestion utilities
+- Subject-level ingestion utilities
 - Deterministic model random states where applicable
 - Documented preprocessing and feature-engineering logic
-- Notebook walkthrough for research traceability
-- Source modules for reusable execution
+- Research notebook for traceability
+- Reusable Python modules for pipeline execution
 
 ---
 
-## Important Scope Note
+## Ethics and Clinical Scope
 
-This project is a research prototype for physiological signal analysis and sleep-stage classification. It is **not** a clinical diagnostic system, medical device, or substitute for professional sleep-medicine interpretation.
+This project is a research prototype for physiological signal analysis and sleep-stage classification. It is not a clinical diagnostic system, medical device, or substitute for professional sleep-medicine interpretation.
+
+Physiological data can encode sensitive behavioral and health-related patterns. Model outputs should be interpreted as research signals requiring validation, not as clinical conclusions.
 
 ---
 
-## Future Work
+## Future Research Directions
 
-Planned extensions include:
+Planned research extensions include:
 
 - Subject-wise train/test splits to reduce leakage across individuals
 - Expanded multi-subject evaluation
