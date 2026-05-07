@@ -1,0 +1,2 @@
+experiment_id,subject_scope,model,feature_set,split_strategy,accuracy,macro_f1,weighted_f1,notes
+baseline_rf,single_subject,RandomForest,heart_rate_motion_steps,epoch_split,,,,Initial baseline experiment
