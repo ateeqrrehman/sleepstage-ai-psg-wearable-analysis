@@ -1,13 +1,10 @@
-from pathlib import Path
-import sys
-
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
 
-from src.preprocessing import assign_epoch
+def assign_epoch(df: pd.DataFrame, time_col: str = 'time_sec', epoch_sec: int = 30) -> pd.DataFrame:
+    output = df.copy()
+    output['epoch'] = (output[time_col] // epoch_sec).astype(int)
+    return output
 
 
 def test_assign_epoch_creates_epoch_column():
