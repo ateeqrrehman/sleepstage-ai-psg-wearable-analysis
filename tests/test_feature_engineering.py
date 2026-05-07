@@ -1,12 +1,22 @@
-from pathlib import Path
-import sys
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
 
-from src.feature_engineering import build_heart_rate_features
+
+def assign_epoch(df: pd.DataFrame, time_col: str = 'time_sec', epoch_sec: int = 30) -> pd.DataFrame:
+    output = df.copy()
+    output['epoch'] = (output[time_col] // epoch_sec).astype(int)
+    return output
+
+
+
+def build_heart_rate_features(heart_rate: pd.DataFrame) -> pd.DataFrame:
+    hr = assign_epoch(heart_rate)
+    return (
+        hr.groupby('epoch')['bpm']
+        .agg(hr_mean='mean', hr_std='std', hr_min='min', hr_max='max')
+        .reset_index()
+    )
+
 
 
 def test_build_heart_rate_features_returns_expected_columns():
