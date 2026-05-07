@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": [
+    "epoch",
+    "stage"
+  ],
+  "properties": {
+    "epoch": {
+      "type": "integer"
+    },
+    "stage": {
+      "type": "integer"
+    }
+  }
+}
